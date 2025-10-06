@@ -198,15 +198,15 @@ airflow dags trigger dbt_silver_parallel
 ## 📄 Licencia
 
 Este proyecto se distribuye bajo licencia **MIT**.  
-Siente total libertad para reutilizar, adaptar y mejorar el código.
+Siente total libertad para reutilizar, adaptar y mejorar el código. eso si, pilas con compartir Keys o Secret values
 
 ---
 
 ## ✉️ Contacto
 
-**Autor:** Tatán  
-**Rol:** Data Engineer  
-**LinkedIn:** [linkedin.com/in/tatan](https://linkedin.com/in/tatan)
+**Autor:** Sebastian Clavijo Correa  
+**Rol:** Data Engineer / Miembro comunidad Databircks   
+**LinkedIn:** [linkedin.com/in/Sebastian Clavijo Correa]([https://linkedin.com/in/tatan](https://www.linkedin.com/in/sebastian-clavijo-correa-446421287/))
 
 ---
 
