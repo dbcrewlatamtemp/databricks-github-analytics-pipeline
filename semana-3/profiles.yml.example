@@ -1,0 +1,21 @@
+
+databricks_project:
+  target: dev
+  outputs:
+    prod:
+      type: databricks
+      catalog: main
+      schema: silver
+      host: https://<tu-workspace>.cloud.databricks.com
+      http_path: /sql/1.0/warehouses/<WAREHOUSE_ID>
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 8
+
+    dev:
+      type: databricks
+      catalog: main
+      schema: silver_dev
+      host: https://<tu-workspace>.cloud.databricks.com
+      http_path: /sql/1.0/warehouses/<WAREHOUSE_ID>
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 8

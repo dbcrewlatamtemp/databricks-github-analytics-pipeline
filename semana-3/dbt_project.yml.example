@@ -1,0 +1,21 @@
+
+name: databricks_silver
+version: 1.0.0
+config-version: 2
+
+profile: databricks_project
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+models:
+  databricks_silver:
+    +materialized: incremental
+    +on_schema_change: append_new_columns
+    +file_format: delta
+    +tags: ["silver"]
+
+    silver:
+      +schema: "{{ target.schema }}"
