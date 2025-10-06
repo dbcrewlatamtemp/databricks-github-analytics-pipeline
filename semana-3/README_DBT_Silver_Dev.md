@@ -205,8 +205,8 @@ Siente total libertad para reutilizar, adaptar y mejorar el código. eso si, pil
 ## ✉️ Contacto
 
 **Autor:** Sebastian Clavijo Correa  
-**Rol:** Data Engineer / Miembro comunidad Databircks   
-**LinkedIn:** [linkedin.com/in/Sebastian Clavijo Correa]([https://linkedin.com/in/tatan](https://www.linkedin.com/in/sebastian-clavijo-correa-446421287/))
+**Rol:** Data Engineer / Miembro comunidad Databricks   
+**LinkedIn:** [linkedin.com/in/Sebastian Clavijo Correa](https://linkedin.com/in/tatan](https://www.linkedin.com/in/sebastian-clavijo-correa-446421287))
 
 ---
 
