@@ -1,429 +1,388 @@
-# Databricks GitHub Analytics Pipeline 🚀
+# **Semana 2: Transformaciones de Datos y Creación de la Capa Silver**
 
-[![Databricks](https://img.shields.io/badge/Databricks-FF3621?style=for-the-badge&logo=databricks&logoColor=white)](https://databricks.com/)
-[![Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com/)
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
-[![Apache Spark](https://img.shields.io/badge/Apache%20Spark-E25A1C?style=for-the-badge&logo=apache-spark&logoColor=white)](https://spark.apache.org/)
-[![GitHub API](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://docs.github.com/en/rest)
+[![Fase 1](https://img.shields.io/badge/Fase%201-Esquemas%20y%20Limpieza-blue?style=for-the-badge)](./fase-1-esquemas-limpieza.md)
+[![Fase 2](https://img.shields.io/badge/Fase%202-Transformaciones%20PySpark-green?style=for-the-badge)](./fase-2-transformaciones-pyspark.md)
+[![Fase 3](https://img.shields.io/badge/Fase%203-Capa%20Silver-gold?style=for-the-badge)](./fase-3-capa-silver.md)
+[![PySpark](https://img.shields.io/badge/PySpark-E25A1C?style=for-the-badge&logo=apache-spark&logoColor=white)](https://spark.apache.org/)
+[![Delta Lake](https://img.shields.io/badge/Delta%20Lake-00ADD8?style=for-the-badge&logo=delta&logoColor=white)](https://delta.io/)
 
-## 📋 Descripción del Proyecto
+## **🎯 Objetivo de la Semana**
 
-Pipeline completo de análisis de datos que procesa eventos de GitHub en tiempo real usando **Databricks**, **Azure Storage** y **Medallion Architecture**. Este proyecto implementa las mejores prácticas de Data Engineering para transformar datos en bruto de GitHub Archive en insights analíticos listos para consumo empresarial.
+Transformar los datos en bruto de GitHub (Capa Bronze) en datos limpios, estructurados y optimizados para análisis (Capa Silver). Aprenderás las técnicas fundamentales de **Data Engineering** usando **PySpark**, **Delta Lake** y **esquemas evolutivos** para crear pipelines de transformación robustos y escalables.
 
-### 🎯 ¿Qué hace este pipeline?
+---
 
-- **Ingesta automática** de eventos de GitHub desde GitHub Archive
-- **Procesamiento distribuido** usando Apache Spark en Databricks
-- **Almacenamiento escalable** en Azure Data Lake (Bronze-Silver-Gold)
-- **Transformaciones inteligentes** para análisis de patrones de desarrollo
-- **Métricas de desarrolladores** y tendencias de repositorios
-- **Dashboards interactivos** para visualización de insights
+## **📚 Contenido de la Semana**
 
------
+### **[🔧 Fase 1: Esquemas y Limpieza de Datos](./fase-1-esquemas-limpieza.md)**
+**⏱️ Duración estimada:** 2-3 horas
 
-## 🏗️ Arquitectura del Pipeline
+#### **🛠️ Lo que vas a hacer:**
+- ✅ Analizar la estructura de datos JSON de GitHub Archive
+- ✅ Definir esquemas PySpark para eventos de GitHub
+- ✅ Implementar validaciones de calidad de datos
+- ✅ Limpiar y normalizar campos inconsistentes
+- ✅ Manejar valores nulos y datos corruptos
+
+#### **🎓 Habilidades que desarrollarás:**
+- Análisis exploratorio de datos (EDA) con PySpark
+- Definición de esquemas estructurados
+- Técnicas de limpieza de datos
+- Validaciones de Data Quality
+- Manejo de datos semi-estructurados (JSON)
+
+---
+
+### **[⚡ Fase 2: Transformaciones Avanzadas con PySpark](./fase-2-transformaciones-pyspark.md)**
+**⏱️ Duración estimada:** 3-4 horas
+
+#### **🛠️ Lo que vas a hacer:**
+- ✅ Transformar eventos JSON en tablas relacionales
+- ✅ Extraer información de payloads complejos
+- ✅ Crear dimensiones de tiempo (timestamp parsing)
+- ✅ Normalizar datos de usuarios y repositorios
+- ✅ Implementar transformaciones avanzadas con SQL
+
+#### **🎓 Habilidades que desarrollarás:**
+- PySpark DataFrames y SQL avanzado
+- Transformaciones de datos complejas
+- Parsing de timestamps y fechas
+- Normalización de datos
+- Optimización de queries distribuidas
+
+---
+
+### **[🥈 Fase 3: Implementación de la Capa Silver](./fase-3-capa-silver.md)**
+**⏱️ Duración estimada:** 2-3 horas
+
+#### **🛠️ Lo que vas a hacer:**
+- ✅ Configurar Delta Lake para ACID transactions
+- ✅ Crear tablas Silver particionadas por fecha
+- ✅ Implementar merge/upsert operations
+- ✅ Optimizar storage con Z-Order clustering
+- ✅ Crear pipeline de transformación automatizado
+
+#### **🎓 Habilidades que desarrollarás:**
+- Delta Lake para lakehouse architecture
+- Particionado eficiente de datos
+- Operaciones ACID en data lakes
+- Optimización de storage y queries
+- Pipelines de transformación escalables
+
+---
+
+## **🏗️ Arquitectura que Vas a Construir**
 
 ```mermaid
 graph TB
-    subgraph "Data Sources"
-        A[GitHub Archive API<br/>🐙 gharchive.org]
+    subgraph "Semana 2 - Pipeline Silver"
+        A[🥉 Bronze Layer<br/>Raw JSON Files] --> B[🔍 Schema Analysis<br/>Data Profiling]
+        B --> C[🧹 Data Cleaning<br/>Quality Validation]
+        C --> D[⚡ PySpark Transformations<br/>Complex Queries]
+        D --> E[🥈 Silver Layer<br/>Structured Tables]
+        
+        F[📊 Delta Lake<br/>ACID Transactions] --> E
+        G[🗂️ Partitioning<br/>Date-based] --> E
+        H[⚡ Z-Order Optimization<br/>Query Performance] --> E
     end
     
-    subgraph "Ingestion Layer"
-        B[Databricks Notebooks<br/>📓 Python + Azure SDK]
+    subgraph "Data Quality Gates"
+        I[📈 Row Count Validation]
+        J[🔍 Schema Validation]
+        K[📊 Business Rules Check]
+        L[⚠️ Anomaly Detection]
     end
     
-    subgraph "Azure Data Lake"
-        C[🥉 Bronze Layer<br/>Raw JSON Data]
-        D[🥈 Silver Layer<br/>Cleaned & Structured]
-        E[🥇 Gold Layer<br/>Analytics Ready]
-    end
+    C --> I
+    C --> J
+    C --> K
+    C --> L
     
-    subgraph "Processing Engine"
-        F[Apache Spark<br/>⚡ Distributed Processing]
-        G[Delta Lake<br/>🗃️ ACID Transactions]
-    end
-    
-    subgraph "Analytics & Insights"
-        H[📊 Business Metrics]
-        I[📈 Trend Analysis]
-        J[🎯 Developer Insights]
-    end
-    
-    A --> B
-    B --> C
-    C --> F
-    F --> D
-    D --> F
-    F --> E
-    E --> H
-    E --> I
-    E --> J
-    
-    G --> C
-    G --> D
-    G --> E
+    style E fill:#C0C0C0,stroke:#808080,stroke-width:3px
+    style A fill:#CD7F32,stroke:#8B4513,stroke-width:2px
 ```
 
------
+### **🎯 Enfoque de la Semana 2:**
+- **🥈 Silver Layer:** Datos limpios y estructurados
+- **⚡ PySpark:** Transformaciones distribuidas
+- **🗃️ Delta Lake:** Storage optimizado con ACID
+- **📊 Data Quality:** Validaciones y métricas
 
-## 📊 Datos y Métricas
+---
 
-### 🔍 Eventos de GitHub Analizados
+## **📊 Transformaciones de Datos**
 
-- **PushEvent** - Commits y contribuciones de código
-- **PullRequestEvent** - Colaboración y code reviews
-- **IssuesEvent** - Gestión de tareas y bugs
-- **WatchEvent** - Popularidad de repositorios (stars)
-- **ForkEvent** - Adopción y distribución de código
-- **CreateEvent** - Creación de proyectos y branches
-
-### 📈 Métricas Generadas
-
-- **Actividad de desarrolladores** por región/timezone
-- **Tendencias de lenguajes** de programación
-- **Patrones de colaboración** en open source
-- **Ranking de repositorios** más activos
-- **Análisis temporal** de commits (horas/días)
-- **Detección de proyectos** emergentes
-
-### 📅 Volumen de Datos
-
-- **~1.5M eventos/hora** en horarios pico
-- **~20-50 MB** por archivo hourly
-- **~500 GB/mes** de datos en bruto
-- **Processing capacity:** Hasta 10GB/minuto
-
------
-
-## 🗓️ Guía de Implementación
-
-### **Semana 1: Fundamentos y Capa Bronze** ✅
-
-**[📖 Ir a la Guía Completa](./semana-1/README.md)**
-
-#### 🎯 Objetivos:
-
-- Configurar entorno Databricks Community Edition
-- Integrar Azure Storage como Data Lake
-- Implementar ingesta automática de datos
-- Crear capa Bronze con datos en bruto
-
-#### 🛠️ Tecnologías:
-
-- Databricks Community Edition (Free)
-- Azure Blob Storage
-- Python + Azure SDK
-- GitHub Archive API
-
-#### ⏱️ Duración: 3-4 horas
-
------
-
-### **Semana 2: Transformaciones y Capa Silver** 🔄
-
-**(Próximamente)**
-
-#### 🎯 Objetivos:
-
-- Limpiar y validar datos de GitHub
-- Aplicar esquemas estructurados con Delta Lake
-- Implementar transformaciones con PySpark
-- Optimizar performance y particionado
-
-#### 🛠️ Tecnologías:
-
-- Apache Spark / PySpark
-- Delta Lake
-- Databricks SQL
-- Data Quality validations
-
------
-
-### **Semana 3: Agregaciones y Capa Gold** 📊
-
-**(Próximamente)**
-
-#### 🎯 Objetivos:
-
-- Crear métricas de negocio
-- Implementar agregaciones temporales
-- Construir tablas dimensionales
-- Generar insights analíticos
-
-#### 🛠️ Tecnologías:
-
-- Spark SQL avanzado
-- Time series analysis
-- Statistical computing
-- Business intelligence tables
-
------
-
-### **Semana 4: Automatización y Productivización** ⚙️
-
-**(Próximamente)**
-
-#### 🎯 Objetivos:
-
-- Automatizar pipeline con Databricks Jobs
-- Implementar monitoreo y alertas
-- Configurar CI/CD para Data Engineering
-- Deploying en entornos de producción
-
-#### 🛠️ Tecnologías:
-
-- Databricks Jobs & Workflows
-- Azure DevOps / GitHub Actions
-- Monitoring & Alerting
-- Infrastructure as Code
-
------
-
-## 🚀 Inicio Rápido
-
-### **Prerrequisitos**
-
-- [ ] Cuenta [Azure](https://azure.microsoft.com/) con Storage Account
-- [ ] Cuenta [Databricks Community Edition](https://community.cloud.databricks.com/) (gratuita)
-- [ ] Permisos Azure: Storage Account Contributor + Storage Blob Data Contributor
-- [ ] Python 3.8+ (incluido en Databricks)
-
-### **🔧 Setup en 5 Pasos**
-
-1. **Clonar el repositorio**
-   
-   ```bash
-   git clone https://github.com/tu-usuario/databricks-github-analytics-pipeline.git
-   cd databricks-github-analytics-pipeline
-   ```
-1. **Configurar Azure Storage**
-- Crear Storage Account en Azure
-- Obtener credenciales de acceso
-- Configurar permisos necesarios
-1. **Setup Databricks**
-- Registrarse en Community Edition
-- Crear clúster computacional
-- Configurar Databricks Secrets
-1. **Ejecutar Semana 1**
-- Seguir guía paso a paso
-- Implementar capa Bronze
-- Validar ingesta de datos
-1. **¡Analizar datos de GitHub!**
-- Explorar eventos descargados
-- Ejecutar primeras consultas
-- Prepararse para transformaciones
-
-**[🚀 Comenzar con Semana 1](./semana-1/README.md)**
-
------
-
-## 📁 Estructura del Proyecto
-
-```
-databricks-github-analytics-pipeline/
-├── README.md                          # Este archivo
-├── LICENSE                            # Licencia MIT
-├── .gitignore                         # Archivos a ignorar
-│
-├── semana-1/                          # 🏗️ Fundamentos y Bronze
-│   ├── README.md                      # Guía de la semana
-│   ├── fase-1-configuracion.md       # Setup del entorno
-│   ├── fase-2-capa-bronze.md         # Implementación Bronze
-│   └── notebooks/
-│       ├── 01_Setup_Azure_Storage.py
-│       ├── 02_Ingesta_Bronze.py
-│       └── 03_Validation_Bronze.py
-│
-├── semana-2/                          # 🔄 Transformaciones y Silver
-│   ├── README.md
-│   ├── transformaciones-pyspark.md
-│   ├── esquemas-delta-lake.md
-│   └── notebooks/
-│       ├── 04_Limpieza_Datos.py
-│       ├── 05_Esquemas_Estructurados.py
-│       └── 06_Capa_Silver.py
-│
-├── semana-3/                          # 📊 Agregaciones y Gold
-│   ├── README.md
-│   ├── metricas-negocio.md
-│   ├── analisis-temporal.md
-│   └── notebooks/
-│       ├── 07_Metricas_Desarrolladores.py
-│       ├── 08_Tendencias_Repositorios.py
-│       └── 09_Capa_Gold.py
-│
-├── semana-4/                          # ⚙️ Automatización
-│   ├── README.md
-│   ├── databricks-jobs.md
-│   ├── ci-cd-pipeline.md
-│   └── workflows/
-│       ├── daily_ingestion.json
-│       ├── weekly_aggregation.json
-│       └── monitoring_alerts.json
-│
-└── recursos/                          # 📚 Recursos adicionales
-    ├── diagramas/
-    │   ├── arquitectura.png
-    │   ├── flujo-datos.png
-    │   └── medallion-architecture.png
-    ├── templates/
-    │   ├── azure-setup-template.json
-    │   ├── databricks-config.yaml
-    │   └── secrets-template.md
-    ├── scripts/
-    │   ├── setup_environment.sh
-    │   ├── validate_permissions.py
-    │   └── cleanup_resources.py
-    └── docs/
-        ├── troubleshooting.md
-        ├── best-practices.md
-        ├── performance-tuning.md
-        └── security-guidelines.md
+### **🔍 Análisis de Eventos GitHub (Input):**
+```json
+{
+  "id": "12345678901",
+  "type": "PushEvent",
+  "actor": {
+    "id": 123456,
+    "login": "octocat",
+    "display_login": "octocat"
+  },
+  "repo": {
+    "id": 654321,
+    "name": "octocat/Hello-World"
+  },
+  "created_at": "2025-01-01T00:00:00Z",
+  "payload": {
+    "commits": [
+      {
+        "sha": "abc123def456...",
+        "message": "Update README.md"
+      }
+    ]
+  }
+}
 ```
 
------
+### **🥈 Tabla Silver Resultante (Output):**
+| event_id | event_type | user_id | username | repo_id | repo_name | event_date | hour | commits_count | main_language |
+|----------|------------|---------|----------|---------|-----------|------------|------|---------------|---------------|
+| 12345678901 | PushEvent | 123456 | octocat | 654321 | octocat/Hello-World | 2025-01-01 | 0 | 1 | Python |
 
-## 💡 Casos de Uso
+### **📈 Métricas de Transformación:**
+- **Reducción de volumen:** ~40-60% (JSON → Columnar)
+- **Mejora de queries:** 10-50x más rápido
+- **Data quality:** 99%+ eventos válidos
+- **Particionado:** Por fecha para queries eficientes
 
-### 🏢 **Para Empresas**
+---
 
-- **Developer Productivity Analytics:** Medir eficiencia de equipos
-- **Open Source Intelligence:** Identificar tecnologías emergentes
-- **Talent Acquisition:** Encontrar desarrolladores activos
-- **Competitive Analysis:** Analizar actividad de competidores
+## **🚀 Tecnologías de la Semana**
 
-### 🎓 **Para Educación**
+### **🛠️ Stack Tecnológico Principal:**
 
-- **Learning Data Engineering:** Proyecto completo end-to-end
-- **Cloud Technologies:** Práctica con Azure y Databricks
-- **Big Data Processing:** Experiencia con Spark y Delta Lake
-- **Portfolio Development:** Proyecto impresionante para CV
+| Tecnología | Propósito | Nivel de Uso |
+|------------|-----------|--------------|
+| **PySpark** | Engine de transformaciones distribuidas | 🔥🔥🔥🔥🔥 |
+| **Delta Lake** | Storage format con ACID transactions | 🔥🔥🔥🔥⚪ |
+| **Spark SQL** | Queries y transformaciones declarativas | 🔥🔥🔥🔥⚪ |
+| **Python** | Desarrollo de transformaciones custom | 🔥🔥🔥🔥🔥 |
+| **JSON Parsing** | Extracción de datos semi-estructurados | 🔥🔥🔥⚪⚪ |
+| **Schema Evolution** | Manejo de cambios en estructura | 🔥🔥🔥⚪⚪ |
 
-### 🔬 **Para Investigación**
+### **📊 Conceptos Clave:**
+- **DataFrames vs RDDs:** Cuándo usar cada uno
+- **Catalyst Optimizer:** Optimización automática de queries
+- **Partitioning Strategies:** Distribución eficiente de datos
+- **Data Skew:** Detección y mitigación de desbalances
+- **Broadcast Joins:** Optimización de joins pequeños
 
-- **Developer Behavior Analysis:** Patrones de contribución
-- **Software Evolution Studies:** Análisis de tendencias
-- **Collaboration Networks:** Mapeo de comunidades
-- **Technology Adoption:** Velocidad de adopción de frameworks
+---
 
------
+## **🚀 Guía de Inicio Rápido**
 
-## 🛠️ Stack Tecnológico Completo
+### **📋 Prerrequisitos de la Semana 2**
+- [ ] **Semana 1 completada** exitosamente
+- [ ] **Datos en capa Bronze** disponibles en Azure Storage
+- [ ] **Databricks Serverless Warehouse** activo
+- [ ] **Azure Storage** configurado y accesible
+- [ ] **Conocimientos básicos** de SQL (recomendado)
 
-|Categoría         |Tecnología          |Propósito                |Nivel|
-|------------------|--------------------|-------------------------|-----|
-|**Compute**       |Databricks Community|Procesamiento distribuido|🔥🔥🔥🔥🔥|
-|**Storage**       |Azure Blob Storage  |Data Lake escalable      |🔥🔥🔥🔥🔥|
-|**Processing**    |Apache Spark/PySpark|Engine de Big Data       |🔥🔥🔥🔥⚪|
-|**Storage Format**|Delta Lake          |ACID transactions        |🔥🔥🔥⚪⚪|
-|**Language**      |Python              |Desarrollo principal     |🔥🔥🔥🔥🔥|
-|**Data Source**   |GitHub Archive API  |Eventos de GitHub        |🔥🔥🔥⚪⚪|
-|**Security**      |Databricks Secrets  |Gestión de credenciales  |🔥🔥🔥🔥⚪|
-|**Orchestration** |Databricks Jobs     |Automatización           |🔥🔥🔥⚪⚪|
+### **🔄 Flujo de Trabajo Semana 2**
 
------
+1. **🔍 [Comenzar con Fase 1](./fase-1-esquemas-limpieza.md)**
+   - Analizar datos Bronze existentes
+   - Definir esquemas y validaciones
 
-## 📈 Roadmap del Proyecto
+2. **⚡ [Continuar con Fase 2](./fase-2-transformaciones-pyspark.md)**
+   - Implementar transformaciones complejas
+   - Optimizar performance de queries
 
-### **🎯 Versión 1.0** (Actual)
+3. **🥈 [Finalizar con Fase 3](./fase-3-capa-silver.md)**
+   - Crear tablas Silver con Delta Lake
+   - Automatizar pipeline de transformación
 
-- [x] Configuración básica de entorno
-- [x] Ingesta de datos GitHub Archive
-- [x] Implementación Medallion Architecture
-- [x] Documentación completa
+4. **✅ Verificar resultados**
+   - Validar calidad de datos Silver
+   - Confirmar optimizaciones de performance
 
-### **🚀 Versión 2.0** (En desarrollo)
+---
 
-- [ ] Transformaciones avanzadas con PySpark
-- [ ] Esquemas evolutivos con Delta Lake
-- [ ] Métricas de calidad de datos
-- [ ] Performance optimization
+## **📝 Checklist de Progreso Semanal**
 
-### **⚡ Versión 3.0** (Planificado)
+### **🔍 Fase 1: Esquemas y Limpieza**
+- [ ] **Análisis Exploratorio de Datos**
+  - [ ] Datos Bronze cargados en DataFrames
+  - [ ] Estructura JSON analizada y documentada
+  - [ ] Esquemas PySpark definidos por tipo de evento
+  - [ ] Estadísticas básicas calculadas
 
-- [ ] Streaming en tiempo real
-- [ ] Machine Learning pipelines
-- [ ] Advanced analytics dashboards
-- [ ] Multi-cloud deployment
+- [ ] **Limpieza y Validación**
+  - [ ] Registros corruptos identificados y removidos
+  - [ ] Campos nulos manejados apropiadamente
+  - [ ] Validaciones de data quality implementadas
+  - [ ] Transformaciones de limpieza aplicadas
 
-### **🌟 Versión 4.0** (Futuro)
+### **⚡ Fase 2: Transformaciones PySpark**
+- [ ] **Transformaciones Core**
+  - [ ] Eventos JSON parseados a columnas estructuradas
+  - [ ] Timestamps convertidos a tipos de fecha
+  - [ ] Payloads complejos extraídos (commits, issues, etc.)
+  - [ ] Campos calculados agregados (hour, day_of_week, etc.)
 
-- [ ] MLOps integration
-- [ ] GraphQL API layer
-- [ ] Real-time alerting system
-- [ ] Enterprise security features
+- [ ] **Normalización de Datos**
+  - [ ] Información de usuarios normalizada
+  - [ ] Datos de repositorios estructurados
+  - [ ] Métricas de eventos calculadas
+  - [ ] Transformaciones SQL avanzadas aplicadas
 
------
+### **🥈 Fase 3: Capa Silver**
+- [ ] **Configuración Delta Lake**
+  - [ ] Delta Lake habilitado en Azure Storage
+  - [ ] Tablas Silver creadas con esquemas apropiados
+  - [ ] Particionado por fecha implementado
+  - [ ] Z-Order clustering configurado
 
-## 🤝 Contribuir al Proyecto
+- [ ] **Pipeline de Transformación**
+  - [ ] Proceso ETL automatizado Bronze → Silver
+  - [ ] Operaciones merge/upsert funcionando
+  - [ ] Validaciones de calidad en pipeline
+  - [ ] Métricas de performance documentadas
 
-### **🎯 Cómo Contribuir**
+- [ ] **Validación Final**
+  - [ ] Datos Silver verificados en Azure Portal
+  - [ ] Queries de ejemplo ejecutadas exitosamente
+  - [ ] Performance comparado con Bronze
+  - [ ] Pipeline listo para automatización
 
-1. **Fork** el repositorio
-1. **Crea** una rama feature (`git checkout -b feature/mejora-increible`)
-1. **Commit** tus cambios (`git commit -m 'Add: mejora increible'`)
-1. **Push** a la rama (`git push origin feature/mejora-increible`)
-1. **Abre** un Pull Request
+---
 
-### **📝 Tipos de Contribuciones Bienvenidas**
+## **🎓 Conocimientos y Habilidades Adquiridas**
 
-- 🐛 **Bug fixes** y correcciones
-- 📚 **Mejoras de documentación**
-- ✨ **Nuevas features** y funcionalidades
-- 🎨 **Optimizaciones** de performance
-- 🧪 **Tests** y validaciones
-- 🌍 **Traducciones** a otros idiomas
+### **💡 Conceptos de Data Engineering Avanzados**
+- **🏗️ Lakehouse Architecture:** Combinación de data lakes y data warehouses
+- **🔄 ETL vs ELT:** Diferencias y cuándo usar cada enfoque
+- **📊 Data Quality Engineering:** Métricas, validaciones y monitoreo
+- **⚡ Distributed Computing:** Paralelización y optimización de workloads
 
-### **💬 Comunidad y Support**
+### **🛠️ Habilidades Técnicas Específicas**
+- **🐍 PySpark Avanzado:** DataFrames, SQL, y optimizaciones
+- **🗃️ Delta Lake:** ACID transactions, time travel, schema evolution
+- **📈 Performance Tuning:** Partitioning, caching, broadcasting
+- **🔍 Data Profiling:** Análisis estadístico y detección de anomalías
 
-- **[GitHub Issues](https://github.com/tu-usuario/databricks-github-analytics-pipeline/issues)** - Reportar bugs o pedir features
-- **[GitHub Discussions](https://github.com/tu-usuario/databricks-github-analytics-pipeline/discussions)** - Preguntas y conversaciones
-- **[Wiki](https://github.com/tu-usuario/databricks-github-analytics-pipeline/wiki)** - Documentación extendida
+### **🏢 Aplicaciones Empresariales**
+- **📊 Data Pipeline Design:** Arquitectura de pipelines escalables
+- **🔧 Data Transformation:** Técnicas de limpieza y normalización
+- **📈 Performance Optimization:** Queries eficientes en big data
+- **🛡️ Data Governance:** Calidad, linaje y documentación
 
------
+---
 
-## 📊 Estadísticas del Proyecto
+## **🔍 Casos de Uso de la Semana**
 
-![GitHub stars](https://img.shields.io/github/stars/tu-usuario/databricks-github-analytics-pipeline?style=social)
-![GitHub forks](https://img.shields.io/github/forks/tu-usuario/databricks-github-analytics-pipeline?style=social)
-![GitHub issues](https://img.shields.io/github/issues/tu-usuario/databricks-github-analytics-pipeline)
-![GitHub license](https://img.shields.io/github/license/tu-usuario/databricks-github-analytics-pipeline)
+### **📊 Análisis que Habilitarás:**
+- **Developer Activity Patterns:** Análisis temporal de commits
+- **Repository Trends:** Tendencias de popularidad y actividad
+- **Language Analytics:** Distribución y evolución de lenguajes
+- **Collaboration Networks:** Patrones de contribución entre usuarios
 
------
+### **🎯 Métricas que Crearás:**
+- **Commits por hora/día/mes** para análisis temporal
+- **Actividad por repositorio** para ranking de popularidad
+- **Contribuciones por desarrollador** para análisis de productividad
+- **Eventos por tipo** para entender patrones de uso de GitHub
 
-## 📄 Licencia
+---
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo <LICENSE> para más detalles.
+## **🔍 Troubleshooting y Soporte**
 
------
+### **❓ Problemas Comunes y Soluciones**
 
-## 🙏 Agradecimientos
+| **Problema** | **Síntoma** | **Solución** |
+|--------------|-------------|--------------|
+| **JSON parsing errors** | "Malformed JSON" | Implementar try-catch y logging robusto |
+| **Schema evolution issues** | "Column not found" | Usar schema merging y campos opcionales |
+| **Performance lento** | Queries toman mucho tiempo | Revisar partitioning y optimizar joins |
+| **Memory errors** | "OutOfMemory exception" | Ajustar configuración de Spark y partitioning |
+| **Delta Lake errors** | "Concurrent modification" | Implementar retry logic y optimistic concurrency |
 
-- **[GitHub Archive](https://www.gharchive.org/)** por proporcionar datos públicos de GitHub
-- **[Databricks](https://databricks.com/)** por la plataforma Community Edition gratuita
-- **[Microsoft Azure](https://azure.microsoft.com/)** por los servicios de cloud computing
-- **Comunidad Open Source** por inspiración y mejores prácticas
+### **🆘 Dónde Buscar Ayuda**
+- **📋 Spark UI:** Análisis de jobs y stages
+- **🔍 Delta Lake Logs:** Monitoring de transacciones
+- **📚 Documentación:** Enlaces específicos en cada fase
+- **💬 GitHub Issues:** Reportar problemas del proyecto
 
------
+---
 
-## 📧 Contacto
+## **📈 Preparación para Semana 3**
 
-- **Maintainer:** Tu Nombre
-- **Email:** tu.email@example.com
-- **LinkedIn:** [tu-perfil-linkedin](https://linkedin.com/in/tu-perfil)
-- **Twitter:** [@tu_handle](https://twitter.com/tu_handle)
+### **🎯 Vista Previa: Agregaciones y Capa Gold**
+- **Objetivo:** Crear métricas de negocio y tablas analíticas
+- **Tecnologías:** Spark SQL avanzado, Window functions, Aggregations
+- **Duración:** 3-4 horas
+- **Prerrequisito:** Semana 2 completada con datos Silver funcionando
 
------
+### **🔥 Lo que viene:**
+- Agregaciones temporales (daily, weekly, monthly)
+- Métricas de negocio avanzadas
+- Tablas dimensionales para BI
+- Optimización para consultas analíticas
+- Preparación de datos para dashboards
+
+---
+
+## **📚 Recursos de Aprendizaje**
+
+### **📖 Documentación Oficial**
+- [**PySpark Documentation**](https://spark.apache.org/docs/latest/api/python/)
+- [**Delta Lake Guide**](https://docs.delta.io/latest/index.html)
+- [**Databricks PySpark Reference**](https://docs.databricks.com/pyspark/index.html)
+- [**Spark SQL Guide**](https://spark.apache.org/docs/latest/sql-programming-guide.html)
+
+### **🎥 Videos Recomendados**
+- PySpark DataFrames Deep Dive
+- Delta Lake Architecture Overview
+- Spark Performance Tuning
+- Data Quality Best Practices
+
+### **📝 Artículos Complementarios**
+- Medallion Architecture Implementation
+- JSON Processing at Scale
+- Data Partitioning Strategies
+- Modern ETL Design Patterns
+
+---
+
+## **🏆 Certificación de Completitud Semana 2**
+
+Al finalizar esta semana exitosamente, habrás:
+
+✅ **Dominado PySpark** para transformaciones distribuidas  
+✅ **Implementado Delta Lake** para storage optimizado  
+✅ **Creado pipelines ETL** robustos y escalables  
+✅ **Aplicado data quality** engineering  
+✅ **Optimizado performance** de queries en big data  
+
+### **🎖️ Habilidades Validadas:**
+- **Advanced Data Engineering** con PySpark y Delta Lake
+- **ETL Pipeline Development** para producción
+- **Data Quality Engineering** y validaciones
+- **Performance Optimization** en sistemas distribuidos
+- **Lakehouse Architecture** implementation
+
+---
+
+## **🚀 ¿Listo para Empezar?**
+
+### **📍 Tu Próximo Paso:**
 
 <div align="center">
 
-**🚀 ¡Comienza tu viaje en Data Engineering hoy mismo!**
+**[🔍 Comenzar con Fase 1: Esquemas y Limpieza](./fase-1-esquemas-limpieza.md)**
 
-**[📖 Ir a la Guía de la Semana 1](./semana-1/README.md)**
+*Tiempo estimado: 2-3 horas*
 
------
+---
 
-⭐ **Si este proyecto te ha sido útil, ¡no olvides darle una estrella!** ⭐
+**💡 Consejo:** Esta semana es más técnica que la anterior. Tómate tu tiempo para entender cada concepto antes de avanzar. La calidad de tu capa Silver determinará el éxito de todas las semanas siguientes.
 
 </div>
+
+---
+
+**[⬅️ Regresar a Semana 1](../semana-1/README.md)** | **[➡️ Ir a Fase 1](./fase-1-esquemas-limpieza.md)** | **[🏠 Proyecto Principal](../README.md)**
